@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: ai-voice-assistant
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers $WEB_CONCURRENCY app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: GEMINI_API_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: LOG_LEVEL
+        value: INFO
+      - key: HOST
+        value: "0.0.0.0"

@@ -1,0 +1,84 @@
+/* ============================================================
+   theme.css — CSS custom properties for dark and light themes
+   Nova AI Workspace (Dark Mode Only Redesign)
+   ============================================================ */
+
+/* ── Consolidated Theme variables (Always Dark Mode) ─────── */
+:root,
+[data-theme="dark"],
+[data-theme="light"] {
+  /* Core Backgrounds */
+  --bg-base:        #09090B; /* Zinc-950 background */
+  --bg-surface:     #1F2937; /* Slate-800 secondary panels (modals/dialogs) */
+  --bg-surface-2:   #18181B; /* Zinc-900 cards & bubble backgrounds */
+  --bg-surface-3:   #1B2433; /* Surface hover & active layers */
+  --bg-hover:       rgba(255, 255, 255, 0.04);
+  --bg-active:      rgba(124, 58, 237, 0.12); /* Soft purple tint */
+
+  /* Glassmorphism Configuration */
+  --glass-bg:       rgba(9, 9, 11, 0.75); /* Highly translucent backdrop */
+  --glass-border:   rgba(255, 255, 255, 0.08); /* Minimal border */
+  --glass-blur:     20px;
+
+  /* Gradients & Accents (Purple → Blue) */
+  --grad-start:     #7C3AED; /* Primary Purple */
+  --grad-end:       #2563EB; /* Secondary Blue */
+  --accent-purple:  #8B5CF6; /* Bright Violet Accent */
+  --grad-text:      linear-gradient(135deg, #C084FC 0%, #60A5FA 100%);
+  --grad-btn:       linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);
+  --grad-btn-hover: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+  --grad-msg-user:  linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);
+
+  /* Typography Colors */
+  --text-primary:   #F8FAFC; /* Slate-50 */
+  --text-secondary: #94A3B8; /* Slate-400 */
+  --text-muted:     #64748B; /* Darker muted text / placeholder */
+  --text-on-accent: #FFFFFF;
+
+  /* Borders */
+  --border:         rgba(255, 255, 255, 0.08);
+  --border-strong:  rgba(255, 255, 255, 0.15);
+  --border-focus:   rgba(139, 92, 246, 0.55);
+
+  /* Status Colors */
+  --color-success:  #10B981; /* Green */
+  --color-warning:  #F59E0B; /* Orange */
+  --color-error:    #EF4444; /* Red */
+  --color-info:     #3B82F6; /* Blue */
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-border: rgba(239, 68, 68, 0.25);
+
+  /* Premium Shadows & Outer Glows */
+  --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg:  0 12px 32px rgba(0, 0, 0, 0.7);
+  --shadow-xl:  0 20px 48px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 25px rgba(124, 58, 237, 0.25);
+
+  /* Premium Rounded Corners */
+  --radius-xs:  8px;
+  --radius-sm:  12px;
+  --radius-md:  16px;
+  --radius-lg:  22px;
+  --radius-xl:  30px;
+  --radius-full: 9999px;
+
+  /* Layout dimensions */
+  --sidebar-width: 290px;
+  --sidebar-bg:    #111827; /* Slate-900 sidebar background */
+  --header-height: 60px; /* Compact top header height */
+
+  /* Inputs */
+  --input-bg:      rgba(24, 24, 27, 0.6);
+  --input-border:  rgba(255, 255, 255, 0.08);
+
+  /* Scrollbars */
+  --scrollbar-track: rgba(255, 255, 255, 0.01);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.15);
+
+  /* Dynamic Avatars */
+  --avatar-user:   linear-gradient(135deg, #7C3AED, #2563EB);
+  --avatar-ai:     linear-gradient(135deg, #8B5CF6, #3B82F6);
+  --dot-online:    #10B981;
+}

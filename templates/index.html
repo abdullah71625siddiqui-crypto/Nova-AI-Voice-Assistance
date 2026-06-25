@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nova — Premium AI Assistant powered by Google Gemini" />
+  <title>Nova</title>
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <!-- JS Modules -->
+  <script type="module" src="/static/js/ui.js"></script>
+  <script type="module" src="/static/js/settings.js"></script>
+  <script type="module" src="/static/js/chat.js"></script>
+  <script type="module" src="/static/js/voice.js"></script>
+</head>
+
+<body>
+
+  <!-- Futuristic Ambient Glowing Orbs -->
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       TOP HEADER (fixed, full-width)
+       ============================================================ -->
+  <header class="app-header" id="app-header" role="banner">
+    
+    <!-- Left Logo & Title -->
+    <div class="header-logo-group">
+      <div class="sidebar-logo" aria-hidden="true">
+        <i data-lucide="zap" width="18" height="18"></i>
+      </div>
+      <span class="sidebar-title">Nova</span>
+    </div>
+
+    <!-- Sidebar Toggle (mobile & desktop control) -->
+    <button
+      class="header-toggle"
+      id="sidebar-toggle"
+      aria-label="Toggle sidebar"
+      aria-controls="sidebar"
+      aria-expanded="true"
+    >
+      <i data-lucide="panel-left" width="18" height="18"></i>
+    </button>
+
+    <!-- Centered Conversation Workspace Title -->
+    <div class="header-title" id="header-title">
+      <span>Nova Workspace</span>
+    </div>
+
+    <!-- Right Actions Toolbar -->
+    <div class="header-actions" role="toolbar" aria-label="Header actions">
+      
+      <!-- Connection Status Badge -->
+      <div
+        class="status-badge"
+        id="status-badge"
+        role="status"
+        aria-live="polite"
+        aria-label="Connection status: online"
+      >
+        <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+        <span id="status-text">Online</span>
+      </div>
+
+      <!-- Theme Toggle -->
+      <button
+        class="icon-btn"
+        id="theme-toggle-btn"
+        aria-label="Toggle light/dark theme"
+        title="Toggle theme"
+      >
+        <i data-lucide="moon" width="18" height="18" id="theme-icon"></i>
+      </button>
+
+      <!-- Settings Icon -->
+      <button
+        class="icon-btn"
+        id="header-settings-btn"
+        aria-label="Open settings"
+        aria-haspopup="dialog"
+      >
+        <i data-lucide="sliders-horizontal" width="18" height="18"></i>
+      </button>
+
+      <!-- User Profile/Avatar -->
+      <div class="user-profile-avatar" aria-label="User profile">
+        <span class="user-avatar-initial">U</span>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ============================================================
+       APP LAYOUT (Wrapper sitting below the fixed header)
+       ============================================================ -->
+  <div class="app-layout" id="app-layout">
+
+    <!-- ── LEFT SIDEBAR (starts below header) ────────────────── -->
+    <aside class="sidebar" id="sidebar" role="complementary" aria-label="Application sidebar">
+
+      <!-- Sidebar Mobile Header (Visible only on mobile screen widths) -->
+      <div class="sidebar-header">
+        <div class="sidebar-logo" aria-hidden="true">
+          <i data-lucide="zap" width="16" height="16"></i>
+        </div>
+        <span class="sidebar-title">Nova</span>
+        <button
+          class="icon-btn sidebar-close-btn"
+          id="sidebar-close-btn"
+          aria-label="Close sidebar"
+          title="Close sidebar"
+        >
+          <i data-lucide="x" width="16" height="16"></i>
+        </button>
+      </div>
+
+      <!-- Sidebar Navigation Actions & Recent History -->
+      <nav class="sidebar-nav" aria-label="Main navigation">
+
+        <!-- New Chat Button -->
+        <button
+          class="sidebar-btn primary"
+          id="new-chat-btn"
+          aria-label="Start a new chat"
+        >
+          <i data-lucide="plus" width="16" height="16"></i>
+          <span>New Chat</span>
+        </button>
+
+        <!-- Clear Chat Button -->
+        <button
+          class="sidebar-btn"
+          id="clear-btn"
+          aria-label="Clear conversation history"
+        >
+          <i data-lucide="trash-2" width="16" height="16"></i>
+          <span>Clear Chat</span>
+        </button>
+
+        <!-- Recent Conversations List Grouped -->
+        <div class="sidebar-section-label" aria-hidden="true">Recent Chats</div>
+        
+        <div class="history-group">
+          <div class="history-group-header">Today</div>
+          <div
+            class="sidebar-history"
+            id="sidebar-history"
+            role="list"
+            aria-label="Chat history"
+          >
+            <!-- History items injected dynamically by chat.js -->
+            <div class="history-placeholder" aria-label="No previous chats">
+              <span class="history-placeholder-text">No recent chats</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-group">
+          <div class="history-group-header">Yesterday</div>
+          <button class="history-item" role="listitem" title="Designing Nova UI" onclick="alert('This is a simulated conversation from Yesterday.')">
+            <div class="history-item-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" 
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                   stroke-linejoin="round" class="lucide lucide-message-square" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span class="history-text">Designing Nova UI</span>
+            </div>
+            <div class="history-item-right">
+              <span class="history-timestamp">18h ago</span>
+              <span class="history-actions-btn" aria-label="More actions">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </span>
+            </div>
+          </button>
+        </div>
+
+        <div class="history-group">
+          <div class="history-group-header">Last 7 Days</div>
+          <button class="history-item" role="listitem" title="Python JSON parser" onclick="alert('This is a simulated conversation from 3 days ago.')">
+            <div class="history-item-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" 
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                   stroke-linejoin="round" class="lucide lucide-message-square" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span class="history-text">Python JSON parser</span>
+            </div>
+            <div class="history-item-right">
+              <span class="history-timestamp">3d ago</span>
+              <span class="history-actions-btn" aria-label="More actions">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </span>
+            </div>
+          </button>
+          <button class="history-item" role="listitem" title="Gemini API integration" onclick="alert('This is a simulated conversation from 5 days ago.')">
+            <div class="history-item-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" 
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                   stroke-linejoin="round" class="lucide lucide-message-square" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span class="history-text">Gemini API integration</span>
+            </div>
+            <div class="history-item-right">
+              <span class="history-timestamp">5d ago</span>
+              <span class="history-actions-btn" aria-label="More actions">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-more-horizontal"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </span>
+            </div>
+          </button>
+        </div>
+
+      </nav>
+
+      <!-- Sidebar Footer Settings + About -->
+      <div class="sidebar-footer">
+        <button
+          class="sidebar-btn"
+          id="settings-btn"
+          aria-label="Open settings"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+        >
+          <i data-lucide="settings" width="16" height="16"></i>
+          <span>Settings</span>
+        </button>
+        <button
+          class="sidebar-btn"
+          id="about-btn"
+          aria-label="About Nova"
+          aria-haspopup="dialog"
+        >
+          <i data-lucide="info" width="16" height="16"></i>
+          <span>About</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN CONTENT AREA (starts below header) ───────────── -->
+    <div class="main-area" id="main-area">
+
+      <!-- Chat conversation scrollable viewport -->
+      <main
+        class="chat-container"
+        id="chat-container"
+        role="main"
+        aria-label="Conversation"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
+        <div class="chat-inner" id="chat-messages">
+
+          <!-- Centered Welcome Screen (Visible on empty chat states) -->
+          <section
+            class="welcome-screen"
+            id="welcome-screen"
+            aria-label="Welcome to Nova"
+          >
+            <!-- Large Brand Icon -->
+            <div class="welcome-logo" aria-hidden="true">
+              <i data-lucide="zap" width="32" height="32" color="white"></i>
+            </div>
+            
+            <h1 class="welcome-title">Nova</h1>
+            <p class="welcome-subtitle">
+              Your intelligent AI assistant powered by Google Gemini.
+              Ask me anything — I'm here to help.
+            </p>
+
+            <!-- Redesigned Suggestion Cards in a 2x2 grid -->
+            <div
+              class="suggestions-grid"
+              role="list"
+              aria-label="Conversation starters"
+            >
+              <button
+                class="suggestion-card"
+                role="listitem"
+                aria-label="Suggestion: Generate Python Code"
+                data-suggestion="Show me a Python function to read and parse a JSON file"
+              >
+                <div class="suggestion-header">
+                  <span class="suggestion-icon" aria-hidden="true">💻</span>
+                  <span class="suggestion-text">Generate Python Code</span>
+                </div>
+                <p class="suggestion-desc">Create scripts, parse data structures, or build algorithms.</p>
+              </button>
+
+              <button
+                class="suggestion-card"
+                role="listitem"
+                aria-label="Suggestion: Improve My Resume"
+                data-suggestion="Give me tips on how to improve my resume for a software engineering role"
+              >
+                <div class="suggestion-header">
+                  <span class="suggestion-icon" aria-hidden="true">📝</span>
+                  <span class="suggestion-text">Improve My Resume</span>
+                </div>
+                <p class="suggestion-desc">Polishing tips, grammar checks, and structural feedback.</p>
+              </button>
+
+              <button
+                class="suggestion-card"
+                role="listitem"
+                aria-label="Suggestion: Startup Ideas"
+                data-suggestion="Give me 5 creative ideas for a mobile app startup"
+              >
+                <div class="suggestion-header">
+                  <span class="suggestion-icon" aria-hidden="true">🚀</span>
+                  <span class="suggestion-text">Startup Ideas</span>
+                </div>
+                <p class="suggestion-desc">Brainstorm unique concepts and business value models.</p>
+              </button>
+
+              <button
+                class="suggestion-card"
+                role="listitem"
+                aria-label="Suggestion: Analyze CSV Data"
+                data-suggestion="Explain how to analyze and visualize CSV data using Python Pandas"
+              >
+                <div class="suggestion-header">
+                  <span class="suggestion-icon" aria-hidden="true">📊</span>
+                  <span class="suggestion-text">Analyze CSV Data</span>
+                </div>
+                <p class="suggestion-desc">Parse spreadsheets, extract metrics, or plot visual summaries.</p>
+              </button>
+            </div>
+          </section>
+          <!-- /welcome-screen -->
+
+          <!-- Dynamic message bubbles are injected here by chat.js -->
+
+        </div>
+      </main>
+
+      <!-- Input Bar Area (Sticky/fixed at the bottom) -->
+      <footer class="input-area" role="contentinfo" aria-label="Message input area">
+        <div class="input-wrap">
+
+          <!-- Offline Warning Notification Banner -->
+          <div
+            class="offline-banner"
+            id="offline-banner"
+            role="alert"
+            aria-live="assertive"
+            hidden
+          >
+            <i data-lucide="wifi-off" width="14" height="14" aria-hidden="true"></i>
+            <span>You are offline. Messages cannot be sent.</span>
+          </div>
+
+          <!-- Glassmorphic Input Container -->
+          <div class="input-box" id="input-box">
+            
+            <!-- Attachment Button (Premium Workspace feature) -->
+            <button
+              class="input-icon-btn"
+              id="attachment-btn"
+              aria-label="Attach file"
+              title="Attach file"
+            >
+              <i data-lucide="paperclip" width="17" height="17"></i>
+            </button>
+
+            <!-- Resizing Input Textarea -->
+            <textarea
+              id="message-input"
+              rows="1"
+              placeholder="Message Nova..."
+              aria-label="Type your message"
+              aria-multiline="true"
+              aria-describedby="char-counter input-hint-text"
+              maxlength="2000"
+              autocomplete="off"
+              autocorrect="on"
+              spellcheck="true"
+            ></textarea>
+
+            <!-- Control Actions -->
+            <div class="input-actions" role="toolbar" aria-label="Input actions">
+
+              <!-- Microphone Button -->
+              <button
+                class="input-icon-btn"
+                id="mic-btn"
+                aria-label="Voice input (coming soon)"
+                title="Voice input"
+                disabled
+              >
+                <i data-lucide="mic" width="17" height="17"></i>
+              </button>
+
+              <!-- Send Button -->
+              <button
+                class="send-btn"
+                id="send-btn"
+                aria-label="Send message"
+                title="Send message (Enter)"
+                disabled
+              >
+                <i data-lucide="send" width="16" height="16"></i>
+              </button>
+
+            </div>
+          </div>
+          <!-- /input-box -->
+
+          <!-- Dynamic character counters & hints -->
+          <div class="input-hint" id="input-hint">
+            <span id="input-hint-text" aria-live="polite"></span>
+            <span
+              id="char-counter"
+              aria-label="Character count"
+              aria-live="polite"
+            >0 / 2000</span>
+          </div>
+
+        </div>
+      </footer>
+
+    </div>
+    <!-- /main-area -->
+
+  </div>
+  <!-- /app-layout -->
+
+
+  <!-- ============================================================
+       TOAST NOTIFICATIONS
+       ============================================================ -->
+  <div
+    class="toast-container"
+    id="toast-container"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-label="Notifications"
+  ></div>
+
+
+  <!-- ============================================================
+       SETTINGS PANEL (slide-in overlay)
+       ============================================================ -->
+  <div
+    class="panel-overlay"
+    id="settings-overlay"
+    role="presentation"
+    aria-hidden="true"
+    tabindex="-1"
+  ></div>
+
+  <aside
+    class="settings-panel"
+    id="settings-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Settings"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <div class="panel-header">
+      <h2 class="panel-title">Settings</h2>
+      <button
+        class="icon-btn"
+        id="settings-close-btn"
+        aria-label="Close settings"
+      >
+        <i data-lucide="x" width="18" height="18"></i>
+      </button>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Appearance Settings -->
+      <section class="settings-section" aria-labelledby="theme-section-label">
+        <h3 class="settings-section-title" id="theme-section-label">
+          <i data-lucide="palette" width="15" height="15" aria-hidden="true"></i>
+          Appearance
+        </h3>
+
+        <div class="settings-row">
+          <label class="settings-label" for="theme-select">Theme</label>
+          <select class="settings-select" id="theme-select" aria-label="Choose theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="system">System</option>
+          </select>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-label" for="font-size-select">Font Size</label>
+          <select class="settings-select" id="font-size-select" aria-label="Choose font size">
+            <option value="sm">Small</option>
+            <option value="md" selected>Medium</option>
+            <option value="lg">Large</option>
+          </select>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-label" for="animations-toggle">Animations</label>
+          <label class="toggle-switch" aria-label="Toggle animations">
+            <input
+              type="checkbox"
+              id="animations-toggle"
+              checked
+              role="switch"
+              aria-checked="true"
+            />
+            <span class="toggle-track" aria-hidden="true"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Voice Settings (managed by settings.js/voice.js) -->
+      <section class="settings-section" aria-labelledby="voice-section-label">
+        <h3 class="settings-section-title" id="voice-section-label">
+          <i data-lucide="mic" width="15" height="15" aria-hidden="true"></i>
+          Voice
+        </h3>
+
+        <div class="settings-row settings-row--disabled">
+          <label class="settings-label">Voice Input</label>
+          <label class="toggle-switch" aria-label="Voice input activation">
+            <input
+              type="checkbox"
+              id="voice-toggle"
+              disabled
+              role="switch"
+              aria-checked="false"
+            />
+            <span class="toggle-track" aria-hidden="true"></span>
+          </label>
+        </div>
+
+        <div class="settings-row settings-row--disabled">
+          <label class="settings-label" for="speech-rate-slider">Speech Rate</label>
+          <input
+            type="range"
+            class="settings-slider"
+            id="speech-rate-slider"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+            disabled
+            aria-label="Speech rate"
+            aria-valuemin="0.5"
+            aria-valuemax="2"
+            aria-valuenow="1"
+          />
+          <span id="speech-rate-value" aria-live="polite">1.0×</span>
+        </div>
+
+        <div class="settings-row settings-row--disabled">
+          <label class="settings-label" for="voice-select">Voice</label>
+          <select
+            class="settings-select"
+            id="voice-select"
+            disabled
+            aria-label="Select voice"
+          >
+            <option value="">Default</option>
+          </select>
+        </div>
+
+      </section>
+
+    </div>
+    <!-- /panel-body -->
+
+    <div class="panel-footer">
+      <button class="panel-save-btn" id="settings-save-btn" aria-label="Save settings">
+        Save Changes
+      </button>
+    </div>
+  </aside>
+  <!-- /settings-panel -->
+
+
+  <!-- ============================================================
+       ABOUT DIALOG
+       ============================================================ -->
+  <div
+    class="panel-overlay"
+    id="about-overlay"
+    role="presentation"
+    aria-hidden="true"
+    tabindex="-1"
+  ></div>
+
+  <div
+    class="about-dialog"
+    id="about-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="About Nova"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <div class="panel-header">
+      <h2 class="panel-title">About Nova</h2>
+      <button
+        class="icon-btn"
+        id="about-close-btn"
+        aria-label="Close about dialog"
+      >
+        <i data-lucide="x" width="18" height="18"></i>
+      </button>
+    </div>
+
+    <div class="panel-body about-body">
+      <div class="about-logo" aria-hidden="true">
+        <i data-lucide="zap" width="32" height="32" color="white"></i>
+      </div>
+      <h3 class="about-app-name">Nova</h3>
+      <p class="about-version">Version 1.1.0</p>
+      <p class="about-description">
+        A premium AI assistant and workspace built with Python Flask and Google Gemini.
+        Supports text and voice conversations with context memory.
+      </p>
+      <ul class="about-tech-list" aria-label="Technologies used">
+        <li><i data-lucide="check" width="13" height="13" aria-hidden="true"></i> Python 3 + Flask</li>
+        <li><i data-lucide="check" width="13" height="13" aria-hidden="true"></i> Google Gemini API</li>
+        <li><i data-lucide="check" width="13" height="13" aria-hidden="true"></i> Web Speech API</li>
+        <li><i data-lucide="check" width="13" height="13" aria-hidden="true"></i> Deployed on Render</li>
+      </ul>
+    </div>
+  </div>
+  <!-- /about-dialog -->
+
+
+  <!-- ============================================================
+       SIDEBAR MOBILE OVERLAY
+       ============================================================ -->
+  <div
+    class="sidebar-overlay"
+    id="sidebar-overlay"
+    role="presentation"
+    aria-hidden="true"
+    tabindex="-1"
+  ></div>
+
+</body>
+</html>
